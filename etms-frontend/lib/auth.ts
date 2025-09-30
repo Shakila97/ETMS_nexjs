@@ -18,12 +18,16 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api"
 export async function authenticateUser(email: string, password: string): Promise<User | null> {
   try {
     const res = await axios.post(`${API_URL}/auth/login`, { email, password })
+    console.log("DEBUG: Login response", res.data)
     if (res.data.success) {
+      const userData = res.data.data.user
       return {
-        id: res.data.data.user.id,
-        username: res.data.data.user.username,
-        email: res.data.data.user.email,
-        role: res.data.data.user.role,
+        id: userData.id,
+        username: userData.username,
+        email: userData.email,
+        role: userData.role,
+        name: userData.name || userData.username || "",
+        avatar: userData.avatar || "",
         token: res.data.data.token,
       }
     }

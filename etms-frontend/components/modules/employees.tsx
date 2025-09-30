@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -12,15 +12,39 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Label } from "@/components/ui/label"
 import { Search, Plus, MoreHorizontal, Edit, Trash2, Eye, Phone, Mail, MapPin, Calendar } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { mockEmployees, departments, positions, type Employee } from "@/lib/employee-data"
+import { departments, positions, type Employee } from "@/lib/employee-data"
 import type { User } from "@/lib/auth"
+import { getCurrentUser } from "@/lib/auth"
 
 interface EmployeesModuleProps {
   user: User
 }
 
 export function EmployeesModule({ user }: EmployeesModuleProps) {
-  const [employees, setEmployees] = useState<Employee[]>(mockEmployees)
+  const [employees, setEmployees] = useState<Employee[]>([])
+
+  // Fetch live employee data from backend API
+  useEffect(() => {
+    async function fetchEmployees() {
+      try {
+        const currentUser = getCurrentUser()
+        const token = currentUser?.token
+        console.log("DEBUG: Sending token in Authorization header:", token)
+        const res = await fetch("/api/employees", {
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+        })
+        if (res.ok) {
+          const data = await res.json()
+          setEmployees(data.employees || data.data?.employees || [])
+        } else {
+          console.error("Failed to fetch employees: ", res.status)
+        }
+      } catch (err) {
+        console.error("Failed to fetch employees:", err)
+      }
+    }
+    fetchEmployees()
+  }, [])
   const [searchTerm, setSearchTerm] = useState("")
   const [departmentFilter, setDepartmentFilter] = useState("all")
   const [statusFilter, setStatusFilter] = useState("all")

@@ -8,3 +8,5 @@
 {"timestamp":"2025-09-28T13:24:41.208Z","duration":"10659ms","method":"POST","url":"/api/auth/login","user":"anonymous","ip":"::1"}
 {"timestamp":"2025-09-28T13:46:55.434Z","duration":"1016ms","method":"POST","url":"/api/auth/login","user":"anonymous","ip":"::1"}
 {"timestamp":"2025-09-28T15:30:04.783Z","duration":"2555ms","method":"POST","url":"/api/auth/login","user":"anonymous","ip":"::1"}
+{"timestamp":"2025-09-29T19:20:53.780Z","duration":"7662ms","method":"POST","url":"/api/auth/login","user":"anonymous","ip":"::1"}
+{"timestamp":"2025-09-29T19:26:11.677Z","duration":"3394ms","method":"POST","url":"/api/auth/login","user":"anonymous","ip":"::1"}
