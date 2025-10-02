@@ -10,3 +10,7 @@
 {"timestamp":"2025-09-28T15:30:04.783Z","duration":"2555ms","method":"POST","url":"/api/auth/login","user":"anonymous","ip":"::1"}
 {"timestamp":"2025-09-29T19:20:53.780Z","duration":"7662ms","method":"POST","url":"/api/auth/login","user":"anonymous","ip":"::1"}
 {"timestamp":"2025-09-29T19:26:11.677Z","duration":"3394ms","method":"POST","url":"/api/auth/login","user":"anonymous","ip":"::1"}
+{"timestamp":"2025-09-30T18:40:58.007Z","duration":"10197ms","method":"POST","url":"/api/auth/login","user":"anonymous","ip":"::1"}
+{"timestamp":"2025-09-30T18:42:07.338Z","duration":"1416ms","method":"POST","url":"/api/auth/login","user":"anonymous","ip":"::1"}
+{"timestamp":"2025-09-30T18:48:11.796Z","duration":"1286ms","method":"POST","url":"/api/auth/login","user":"anonymous","ip":"::1"}
+{"timestamp":"2025-10-01T16:54:49.207Z","duration":"1677ms","method":"POST","url":"/api/auth/login","user":"anonymous","ip":"::1"}

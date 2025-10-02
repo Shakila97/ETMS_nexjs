@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label"
 import { Search, Plus, MoreHorizontal, Edit, Trash2, Eye, Phone, Mail, MapPin, Calendar } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { departments, positions, type Employee } from "@/lib/employee-data"
+import axios from "@/lib/axios"
 import type { User } from "@/lib/auth"
 import { getCurrentUser } from "@/lib/auth"
 
@@ -27,18 +28,9 @@ export function EmployeesModule({ user }: EmployeesModuleProps) {
   useEffect(() => {
     async function fetchEmployees() {
       try {
-        const currentUser = getCurrentUser()
-        const token = currentUser?.token
-        console.log("DEBUG: Sending token in Authorization header:", token)
-        const res = await fetch("/api/employees", {
-          headers: token ? { Authorization: `Bearer ${token}` } : {},
-        })
-        if (res.ok) {
-          const data = await res.json()
-          setEmployees(data.employees || data.data?.employees || [])
-        } else {
-          console.error("Failed to fetch employees: ", res.status)
-        }
+        const res = await axios.get("/employees")
+        const data = res.data
+        setEmployees(data.employees || data.data?.employees || [])
       } catch (err) {
         console.error("Failed to fetch employees:", err)
       }
