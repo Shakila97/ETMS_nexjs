@@ -1,0 +1,89 @@
+  Determining projects to restore...
+  Writing /tmp/tmp77A2tB.tmp
+info : X.509 certificate chain validation will use the fallback certificate bundle at '/home/ubuntu/.dotnet/sdk/8.0.415/trustedroots/codesignctl.pem'.
+info : X.509 certificate chain validation will use the fallback certificate bundle at '/home/ubuntu/.dotnet/sdk/8.0.415/trustedroots/timestampctl.pem'.
+info : Adding PackageReference for package 'Microsoft.EntityFrameworkCore.Sqlite' into project '/workspace/school-attendance-dashboard/SchoolAttendance.Dashboard.csproj'.
+info : Restoring packages for /workspace/school-attendance-dashboard/SchoolAttendance.Dashboard.csproj...
+info :   GET https://api.nuget.org/v3-flatcontainer/microsoft.entityframeworkcore.sqlite/index.json
+info :   OK https://api.nuget.org/v3-flatcontainer/microsoft.entityframeworkcore.sqlite/index.json 278ms
+info :   GET https://api.nuget.org/v3-flatcontainer/microsoft.entityframeworkcore.sqlite/8.0.21/microsoft.entityframeworkcore.sqlite.8.0.21.nupkg
+info :   OK https://api.nuget.org/v3-flatcontainer/microsoft.entityframeworkcore.sqlite/8.0.21/microsoft.entityframeworkcore.sqlite.8.0.21.nupkg 19ms
+info :   GET https://api.nuget.org/v3-flatcontainer/microsoft.entityframeworkcore.sqlite.core/index.json
+info :   GET https://api.nuget.org/v3-flatcontainer/sqlitepclraw.bundle_e_sqlite3/index.json
+info :   OK https://api.nuget.org/v3-flatcontainer/microsoft.entityframeworkcore.sqlite.core/index.json 44ms
+info :   GET https://api.nuget.org/v3-flatcontainer/microsoft.entityframeworkcore.sqlite.core/8.0.21/microsoft.entityframeworkcore.sqlite.core.8.0.21.nupkg
+info :   OK https://api.nuget.org/v3-flatcontainer/microsoft.entityframeworkcore.sqlite.core/8.0.21/microsoft.entityframeworkcore.sqlite.core.8.0.21.nupkg 35ms
+info :   OK https://api.nuget.org/v3-flatcontainer/sqlitepclraw.bundle_e_sqlite3/index.json 90ms
+info :   GET https://api.nuget.org/v3-flatcontainer/sqlitepclraw.bundle_e_sqlite3/2.1.6/sqlitepclraw.bundle_e_sqlite3.2.1.6.nupkg
+info :   GET https://api.nuget.org/v3-flatcontainer/microsoft.entityframeworkcore.relational/index.json
+info :   GET https://api.nuget.org/v3-flatcontainer/microsoft.data.sqlite.core/index.json
+info :   GET https://api.nuget.org/v3-flatcontainer/microsoft.extensions.dependencymodel/index.json
+info :   OK https://api.nuget.org/v3-flatcontainer/sqlitepclraw.bundle_e_sqlite3/2.1.6/sqlitepclraw.bundle_e_sqlite3.2.1.6.nupkg 24ms
+info :   OK https://api.nuget.org/v3-flatcontainer/microsoft.entityframeworkcore.relational/index.json 56ms
+info :   OK https://api.nuget.org/v3-flatcontainer/microsoft.data.sqlite.core/index.json 59ms
+info :   GET https://api.nuget.org/v3-flatcontainer/microsoft.entityframeworkcore.relational/8.0.21/microsoft.entityframeworkcore.relational.8.0.21.nupkg
+info :   GET https://api.nuget.org/v3-flatcontainer/microsoft.data.sqlite.core/8.0.21/microsoft.data.sqlite.core.8.0.21.nupkg
+info :   OK https://api.nuget.org/v3-flatcontainer/microsoft.extensions.dependencymodel/index.json 90ms
+info :   GET https://api.nuget.org/v3-flatcontainer/microsoft.extensions.dependencymodel/8.0.2/microsoft.extensions.dependencymodel.8.0.2.nupkg
+info :   OK https://api.nuget.org/v3-flatcontainer/microsoft.extensions.dependencymodel/8.0.2/microsoft.extensions.dependencymodel.8.0.2.nupkg 16ms
+info :   OK https://api.nuget.org/v3-flatcontainer/microsoft.data.sqlite.core/8.0.21/microsoft.data.sqlite.core.8.0.21.nupkg 57ms
+info :   OK https://api.nuget.org/v3-flatcontainer/microsoft.entityframeworkcore.relational/8.0.21/microsoft.entityframeworkcore.relational.8.0.21.nupkg 70ms
+info :   CACHE https://api.nuget.org/v3-flatcontainer/microsoft.entityframeworkcore/index.json
+info :   CACHE https://api.nuget.org/v3-flatcontainer/microsoft.extensions.configuration.abstractions/index.json
+info :   CACHE https://api.nuget.org/v3-flatcontainer/microsoft.extensions.configuration.abstractions/8.0.0/microsoft.extensions.configuration.abstractions.8.0.0.nupkg
+info :   CACHE https://api.nuget.org/v3-flatcontainer/microsoft.entityframeworkcore/8.0.21/microsoft.entityframeworkcore.8.0.21.nupkg
+info :   CACHE https://api.nuget.org/v3-flatcontainer/microsoft.entityframeworkcore.abstractions/index.json
+info :   CACHE https://api.nuget.org/v3-flatcontainer/microsoft.entityframeworkcore.analyzers/index.json
+info :   CACHE https://api.nuget.org/v3-flatcontainer/microsoft.extensions.logging/index.json
+info :   CACHE https://api.nuget.org/v3-flatcontainer/microsoft.extensions.caching.memory/index.json
+info :   CACHE https://api.nuget.org/v3-flatcontainer/microsoft.extensions.logging/8.0.1/microsoft.extensions.logging.8.0.1.nupkg
+info :   CACHE https://api.nuget.org/v3-flatcontainer/microsoft.entityframeworkcore.analyzers/8.0.21/microsoft.entityframeworkcore.analyzers.8.0.21.nupkg
+info :   CACHE https://api.nuget.org/v3-flatcontainer/microsoft.extensions.caching.memory/8.0.1/microsoft.extensions.caching.memory.8.0.1.nupkg
+info :   CACHE https://api.nuget.org/v3-flatcontainer/microsoft.entityframeworkcore.abstractions/8.0.21/microsoft.entityframeworkcore.abstractions.8.0.21.nupkg
+info :   CACHE https://api.nuget.org/v3-flatcontainer/microsoft.extensions.dependencyinjection.abstractions/index.json
+info :   CACHE https://api.nuget.org/v3-flatcontainer/microsoft.extensions.logging.abstractions/index.json
+info :   CACHE https://api.nuget.org/v3-flatcontainer/microsoft.extensions.primitives/index.json
+info :   CACHE https://api.nuget.org/v3-flatcontainer/microsoft.extensions.dependencyinjection.abstractions/8.0.2/microsoft.extensions.dependencyinjection.abstractions.8.0.2.nupkg
+info :   CACHE https://api.nuget.org/v3-flatcontainer/microsoft.extensions.logging.abstractions/8.0.2/microsoft.extensions.logging.abstractions.8.0.2.nupkg
+info :   CACHE https://api.nuget.org/v3-flatcontainer/microsoft.extensions.primitives/8.0.0/microsoft.extensions.primitives.8.0.0.nupkg
+info :   CACHE https://api.nuget.org/v3-flatcontainer/microsoft.extensions.options/index.json
+info :   CACHE https://api.nuget.org/v3-flatcontainer/microsoft.extensions.options/8.0.2/microsoft.extensions.options.8.0.2.nupkg
+info :   CACHE https://api.nuget.org/v3-flatcontainer/microsoft.extensions.caching.abstractions/index.json
+info :   CACHE https://api.nuget.org/v3-flatcontainer/microsoft.extensions.caching.abstractions/8.0.0/microsoft.extensions.caching.abstractions.8.0.0.nupkg
+info :   CACHE https://api.nuget.org/v3-flatcontainer/microsoft.extensions.dependencyinjection/index.json
+info :   CACHE https://api.nuget.org/v3-flatcontainer/microsoft.extensions.dependencyinjection/8.0.1/microsoft.extensions.dependencyinjection.8.0.1.nupkg
+info :   CACHE https://api.nuget.org/v3-flatcontainer/microsoft.extensions.dependencyinjection.abstractions/8.0.0/microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg
+info :   GET https://api.nuget.org/v3-flatcontainer/sqlitepclraw.core/index.json
+info :   OK https://api.nuget.org/v3-flatcontainer/sqlitepclraw.core/index.json 48ms
+info :   GET https://api.nuget.org/v3-flatcontainer/sqlitepclraw.core/2.1.6/sqlitepclraw.core.2.1.6.nupkg
+info :   OK https://api.nuget.org/v3-flatcontainer/sqlitepclraw.core/2.1.6/sqlitepclraw.core.2.1.6.nupkg 24ms
+info :   GET https://api.nuget.org/v3-flatcontainer/system.memory/index.json
+info :   OK https://api.nuget.org/v3-flatcontainer/system.memory/index.json 41ms
+info :   GET https://api.nuget.org/v3-flatcontainer/system.memory/4.5.3/system.memory.4.5.3.nupkg
+info :   OK https://api.nuget.org/v3-flatcontainer/system.memory/4.5.3/system.memory.4.5.3.nupkg 13ms
+info :   GET https://api.nuget.org/v3-flatcontainer/sqlitepclraw.lib.e_sqlite3/index.json
+info :   GET https://api.nuget.org/v3-flatcontainer/sqlitepclraw.provider.e_sqlite3/index.json
+info :   OK https://api.nuget.org/v3-flatcontainer/sqlitepclraw.lib.e_sqlite3/index.json 39ms
+info :   GET https://api.nuget.org/v3-flatcontainer/sqlitepclraw.lib.e_sqlite3/2.1.6/sqlitepclraw.lib.e_sqlite3.2.1.6.nupkg
+info :   OK https://api.nuget.org/v3-flatcontainer/sqlitepclraw.provider.e_sqlite3/index.json 43ms
+info :   GET https://api.nuget.org/v3-flatcontainer/sqlitepclraw.provider.e_sqlite3/2.1.6/sqlitepclraw.provider.e_sqlite3.2.1.6.nupkg
+info :   OK https://api.nuget.org/v3-flatcontainer/sqlitepclraw.lib.e_sqlite3/2.1.6/sqlitepclraw.lib.e_sqlite3.2.1.6.nupkg 12ms
+info :   OK https://api.nuget.org/v3-flatcontainer/sqlitepclraw.provider.e_sqlite3/2.1.6/sqlitepclraw.provider.e_sqlite3.2.1.6.nupkg 15ms
+info : Installed SQLitePCLRaw.core 2.1.6 from https://api.nuget.org/v3/index.json to /home/ubuntu/.nuget/packages/sqlitepclraw.core/2.1.6 with content hash wO6v9GeMx9CUngAet8hbO7xdm+M42p1XeJq47ogyRoYSvNSp0NGLI+MgC0bhrMk9C17MTVFlLiN6ylyExLCc5w==.
+info : Installed System.Memory 4.5.3 from https://api.nuget.org/v3/index.json to /home/ubuntu/.nuget/packages/system.memory/4.5.3 with content hash 3oDzvc/zzetpTKWMShs1AADwZjQ/36HnsufHRPcOjyRAAMLDlu2iD33MBI2opxnezcVUtXyqDXXjoFMOU9c7SA==.
+info : Installed Microsoft.EntityFrameworkCore.Sqlite 8.0.21 from https://api.nuget.org/v3/index.json to /home/ubuntu/.nuget/packages/microsoft.entityframeworkcore.sqlite/8.0.21 with content hash MaDcIErHWXfI2TB4iKerSSgtBgxW8YAectpavVN2bUT/NzsCK4blvnjBucEeh1jCv7QnY/Gqo0tbtl2UKe7evQ==.
+info : Installed SQLitePCLRaw.provider.e_sqlite3 2.1.6 from https://api.nuget.org/v3/index.json to /home/ubuntu/.nuget/packages/sqlitepclraw.provider.e_sqlite3/2.1.6 with content hash PQ2Oq3yepLY4P7ll145P3xtx2bX8xF4PzaKPRpw9jZlKvfe4LE/saAV82inND9usn1XRpmxXk7Lal3MTI+6CNg==.
+info : Installed Microsoft.EntityFrameworkCore.Sqlite.Core 8.0.21 from https://api.nuget.org/v3/index.json to /home/ubuntu/.nuget/packages/microsoft.entityframeworkcore.sqlite.core/8.0.21 with content hash KVnL6RbQkFOlRCu/cL7RA4GANOEdGU5R9jG09lQJ2227RPvZ7Cq+LwfhRZDqyLWA6fp5F6EVbYzhyW0pcih5hA==.
+info : Installed Microsoft.Extensions.DependencyModel 8.0.2 from https://api.nuget.org/v3/index.json to /home/ubuntu/.nuget/packages/microsoft.extensions.dependencymodel/8.0.2 with content hash mUBDZZRgZrSyFOsJ2qJJ9fXfqd/kXJwf3AiDoqLD9m6TjY5OO/vLNOb9fb4juC0487eq4hcGN/M2Rh/CKS7QYw==.
+info : Installed SQLitePCLRaw.bundle_e_sqlite3 2.1.6 from https://api.nuget.org/v3/index.json to /home/ubuntu/.nuget/packages/sqlitepclraw.bundle_e_sqlite3/2.1.6 with content hash BmAf6XWt4TqtowmiWe4/5rRot6GerAeklmOPfviOvwLoF5WwgxcJHAxZtySuyW9r9w+HLILnm8VfJFLCUJYW8A==.
+info : Installed Microsoft.Data.Sqlite.Core 8.0.21 from https://api.nuget.org/v3/index.json to /home/ubuntu/.nuget/packages/microsoft.data.sqlite.core/8.0.21 with content hash a8PghOiQP0QKGkbYl2Vu9IqOrqWDPBCPOSdfglNRbUezis0agAEs+S5dqdoSPSIR9dJavKNxjsDJR2U+bN6HzQ==.
+info : Installed Microsoft.EntityFrameworkCore.Relational 8.0.21 from https://api.nuget.org/v3/index.json to /home/ubuntu/.nuget/packages/microsoft.entityframeworkcore.relational/8.0.21 with content hash P1ywvCew/jKhbJApuIk2Sm4Ejq/5FOgEh2IooB48juABzGAlfUjW2kBlbevWO9mNK+sMPS2vnf+US8W0fEo46Q==.
+info : Installed SQLitePCLRaw.lib.e_sqlite3 2.1.6 from https://api.nuget.org/v3/index.json to /home/ubuntu/.nuget/packages/sqlitepclraw.lib.e_sqlite3/2.1.6 with content hash 2ObJJLkIUIxRpOUlZNGuD4rICpBnrBR5anjyfUFQep4hMOIeqW+XGQYzrNmHSVz5xSWZ3klSbh7sFR6UyDj68Q==.
+info :   CACHE https://api.nuget.org/v3/vulnerabilities/index.json
+info :   CACHE https://api.nuget.org/v3-vulnerabilities/2025.10.16.05.26.07/vulnerability.base.json
+info :   CACHE https://api.nuget.org/v3-vulnerabilities/2025.10.16.05.26.07/2025.10.16.05.26.07/vulnerability.update.json
+info : Package 'Microsoft.EntityFrameworkCore.Sqlite' is compatible with all the specified frameworks in project '/workspace/school-attendance-dashboard/SchoolAttendance.Dashboard.csproj'.
+info : PackageReference for package 'Microsoft.EntityFrameworkCore.Sqlite' version '8.0.21' added to file '/workspace/school-attendance-dashboard/SchoolAttendance.Dashboard.csproj'.
+info : Generating MSBuild file /workspace/school-attendance-dashboard/obj/SchoolAttendance.Dashboard.csproj.nuget.g.targets.
+info : Writing assets file to disk. Path: /workspace/school-attendance-dashboard/obj/project.assets.json
+log  : Restored /workspace/school-attendance-dashboard/SchoolAttendance.Dashboard.csproj (in 3.43 sec).

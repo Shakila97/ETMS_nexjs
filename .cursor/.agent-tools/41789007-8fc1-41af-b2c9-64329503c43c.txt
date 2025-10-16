@@ -1,0 +1,87 @@
+  Determining projects to restore...
+  Writing /tmp/tmp2FeB4t.tmp
+info : X.509 certificate chain validation will use the fallback certificate bundle at '/home/ubuntu/.dotnet/sdk/8.0.415/trustedroots/codesignctl.pem'.
+info : X.509 certificate chain validation will use the fallback certificate bundle at '/home/ubuntu/.dotnet/sdk/8.0.415/trustedroots/timestampctl.pem'.
+info : Adding PackageReference for package 'Microsoft.Extensions.Logging.Console' into project '/workspace/school-attendance-dashboard/SchoolAttendance.Dashboard.csproj'.
+info : Restoring packages for /workspace/school-attendance-dashboard/SchoolAttendance.Dashboard.csproj...
+info :   GET https://api.nuget.org/v3-flatcontainer/microsoft.extensions.logging.console/index.json
+info :   OK https://api.nuget.org/v3-flatcontainer/microsoft.extensions.logging.console/index.json 49ms
+info :   GET https://api.nuget.org/v3-flatcontainer/microsoft.extensions.logging.console/8.0.0/microsoft.extensions.logging.console.8.0.0.nupkg
+info :   OK https://api.nuget.org/v3-flatcontainer/microsoft.extensions.logging.console/8.0.0/microsoft.extensions.logging.console.8.0.0.nupkg 24ms
+info :   GET https://api.nuget.org/v3-flatcontainer/microsoft.extensions.dependencyinjection.abstractions/index.json
+info :   GET https://api.nuget.org/v3-flatcontainer/microsoft.extensions.logging.abstractions/index.json
+info :   GET https://api.nuget.org/v3-flatcontainer/microsoft.extensions.logging/index.json
+info :   GET https://api.nuget.org/v3-flatcontainer/microsoft.extensions.logging.configuration/index.json
+info :   GET https://api.nuget.org/v3-flatcontainer/system.text.json/index.json
+info :   GET https://api.nuget.org/v3-flatcontainer/microsoft.extensions.options/index.json
+info :   OK https://api.nuget.org/v3-flatcontainer/microsoft.extensions.dependencyinjection.abstractions/index.json 39ms
+info :   GET https://api.nuget.org/v3-flatcontainer/microsoft.extensions.dependencyinjection.abstractions/8.0.0/microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg
+info :   OK https://api.nuget.org/v3-flatcontainer/microsoft.extensions.dependencyinjection.abstractions/8.0.0/microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg 57ms
+info :   OK https://api.nuget.org/v3-flatcontainer/microsoft.extensions.logging/index.json 103ms
+info :   GET https://api.nuget.org/v3-flatcontainer/microsoft.extensions.logging/8.0.0/microsoft.extensions.logging.8.0.0.nupkg
+info :   OK https://api.nuget.org/v3-flatcontainer/microsoft.extensions.logging.configuration/index.json 105ms
+info :   GET https://api.nuget.org/v3-flatcontainer/microsoft.extensions.logging.configuration/8.0.0/microsoft.extensions.logging.configuration.8.0.0.nupkg
+info :   OK https://api.nuget.org/v3-flatcontainer/microsoft.extensions.options/index.json 120ms
+info :   OK https://api.nuget.org/v3-flatcontainer/microsoft.extensions.logging/8.0.0/microsoft.extensions.logging.8.0.0.nupkg 16ms
+info :   OK https://api.nuget.org/v3-flatcontainer/microsoft.extensions.logging.configuration/8.0.0/microsoft.extensions.logging.configuration.8.0.0.nupkg 14ms
+info :   GET https://api.nuget.org/v3-flatcontainer/microsoft.extensions.options/8.0.0/microsoft.extensions.options.8.0.0.nupkg
+info :   OK https://api.nuget.org/v3-flatcontainer/system.text.json/index.json 127ms
+info :   GET https://api.nuget.org/v3-flatcontainer/system.text.json/8.0.0/system.text.json.8.0.0.nupkg
+info :   OK https://api.nuget.org/v3-flatcontainer/system.text.json/8.0.0/system.text.json.8.0.0.nupkg 19ms
+info :   OK https://api.nuget.org/v3-flatcontainer/microsoft.extensions.options/8.0.0/microsoft.extensions.options.8.0.0.nupkg 31ms
+info :   OK https://api.nuget.org/v3-flatcontainer/microsoft.extensions.logging.abstractions/index.json 212ms
+info :   GET https://api.nuget.org/v3-flatcontainer/microsoft.extensions.logging.abstractions/8.0.0/microsoft.extensions.logging.abstractions.8.0.0.nupkg
+info :   OK https://api.nuget.org/v3-flatcontainer/microsoft.extensions.logging.abstractions/8.0.0/microsoft.extensions.logging.abstractions.8.0.0.nupkg 12ms
+info :   GET https://api.nuget.org/v3-flatcontainer/microsoft.extensions.options.configurationextensions/index.json
+info :   GET https://api.nuget.org/v3-flatcontainer/microsoft.extensions.configuration/index.json
+info :   GET https://api.nuget.org/v3-flatcontainer/microsoft.extensions.configuration.abstractions/index.json
+info :   GET https://api.nuget.org/v3-flatcontainer/microsoft.extensions.configuration.binder/index.json
+info :   OK https://api.nuget.org/v3-flatcontainer/microsoft.extensions.configuration.binder/index.json 38ms
+info :   GET https://api.nuget.org/v3-flatcontainer/microsoft.extensions.configuration.binder/8.0.0/microsoft.extensions.configuration.binder.8.0.0.nupkg
+info :   OK https://api.nuget.org/v3-flatcontainer/microsoft.extensions.configuration.abstractions/index.json 44ms
+info :   OK https://api.nuget.org/v3-flatcontainer/microsoft.extensions.configuration/index.json 45ms
+info :   OK https://api.nuget.org/v3-flatcontainer/microsoft.extensions.options.configurationextensions/index.json 45ms
+info :   GET https://api.nuget.org/v3-flatcontainer/microsoft.extensions.configuration/8.0.0/microsoft.extensions.configuration.8.0.0.nupkg
+info :   GET https://api.nuget.org/v3-flatcontainer/microsoft.extensions.configuration.abstractions/8.0.0/microsoft.extensions.configuration.abstractions.8.0.0.nupkg
+info :   GET https://api.nuget.org/v3-flatcontainer/microsoft.extensions.options.configurationextensions/8.0.0/microsoft.extensions.options.configurationextensions.8.0.0.nupkg
+info :   OK https://api.nuget.org/v3-flatcontainer/microsoft.extensions.configuration.binder/8.0.0/microsoft.extensions.configuration.binder.8.0.0.nupkg 12ms
+info :   OK https://api.nuget.org/v3-flatcontainer/microsoft.extensions.options.configurationextensions/8.0.0/microsoft.extensions.options.configurationextensions.8.0.0.nupkg 12ms
+info :   OK https://api.nuget.org/v3-flatcontainer/microsoft.extensions.configuration/8.0.0/microsoft.extensions.configuration.8.0.0.nupkg 15ms
+info :   OK https://api.nuget.org/v3-flatcontainer/microsoft.extensions.configuration.abstractions/8.0.0/microsoft.extensions.configuration.abstractions.8.0.0.nupkg 24ms
+info :   GET https://api.nuget.org/v3-flatcontainer/microsoft.extensions.primitives/index.json
+info :   OK https://api.nuget.org/v3-flatcontainer/microsoft.extensions.primitives/index.json 39ms
+info :   GET https://api.nuget.org/v3-flatcontainer/microsoft.extensions.primitives/8.0.0/microsoft.extensions.primitives.8.0.0.nupkg
+info :   OK https://api.nuget.org/v3-flatcontainer/microsoft.extensions.primitives/8.0.0/microsoft.extensions.primitives.8.0.0.nupkg 14ms
+info :   GET https://api.nuget.org/v3-flatcontainer/microsoft.extensions.dependencyinjection/index.json
+info :   OK https://api.nuget.org/v3-flatcontainer/microsoft.extensions.dependencyinjection/index.json 41ms
+info :   GET https://api.nuget.org/v3-flatcontainer/microsoft.extensions.dependencyinjection/8.0.0/microsoft.extensions.dependencyinjection.8.0.0.nupkg
+info :   OK https://api.nuget.org/v3-flatcontainer/microsoft.extensions.dependencyinjection/8.0.0/microsoft.extensions.dependencyinjection.8.0.0.nupkg 13ms
+info :   GET https://api.nuget.org/v3-flatcontainer/system.text.encodings.web/index.json
+info :   OK https://api.nuget.org/v3-flatcontainer/system.text.encodings.web/index.json 42ms
+info :   GET https://api.nuget.org/v3-flatcontainer/system.text.encodings.web/8.0.0/system.text.encodings.web.8.0.0.nupkg
+info :   OK https://api.nuget.org/v3-flatcontainer/system.text.encodings.web/8.0.0/system.text.encodings.web.8.0.0.nupkg 13ms
+info : Installed Microsoft.Extensions.Options.ConfigurationExtensions 8.0.0 from https://api.nuget.org/v3/index.json to /home/ubuntu/.nuget/packages/microsoft.extensions.options.configurationextensions/8.0.0 with content hash 0f4DMRqEd50zQh+UyJc+/HiBsZ3vhAQALgdkcQEalSH1L2isdC7Yj54M3cyo5e+BeO5fcBQ7Dxly8XiBBcvRgw==.
+info : Installed Microsoft.Extensions.Primitives 8.0.0 from https://api.nuget.org/v3/index.json to /home/ubuntu/.nuget/packages/microsoft.extensions.primitives/8.0.0 with content hash bXJEZrW9ny8vjMF1JV253WeLhpEVzFo1lyaZu1vQ4ZxWUlVvknZ/+ftFgVheLubb4eZPSwwxBeqS1JkCOjxd8g==.
+info : Installed Microsoft.Extensions.Configuration.Binder 8.0.0 from https://api.nuget.org/v3/index.json to /home/ubuntu/.nuget/packages/microsoft.extensions.configuration.binder/8.0.0 with content hash mBMoXLsr5s1y2zOHWmKsE9veDcx8h1x/c3rz4baEdQKTeDcmQAPNbB54Pi/lhFO3K431eEq6PFbMgLaa6PHFfA==.
+info : Installed Microsoft.Extensions.Configuration 8.0.0 from https://api.nuget.org/v3/index.json to /home/ubuntu/.nuget/packages/microsoft.extensions.configuration/8.0.0 with content hash 0J/9YNXTMWSZP2p2+nvl8p71zpSwokZXZuJW+VjdErkegAnFdO1XlqtA62SJtgVYHdKu3uPxJHcMR/r35HwFBA==.
+info : Installed Microsoft.Extensions.DependencyInjection 8.0.0 from https://api.nuget.org/v3/index.json to /home/ubuntu/.nuget/packages/microsoft.extensions.dependencyinjection/8.0.0 with content hash V8S3bsm50ig6JSyrbcJJ8bW2b9QLGouz+G1miK3UTaOWmMtFwNNNzUf4AleyDWUmTrWMLNnFSLEQtxmxgNQnNQ==.
+info : Installed System.Text.Encodings.Web 8.0.0 from https://api.nuget.org/v3/index.json to /home/ubuntu/.nuget/packages/system.text.encodings.web/8.0.0 with content hash yev/k9GHAEGx2Rg3/tU6MQh4HGBXJs70y7j1LaM1i/ER9po+6nnQ6RRqTJn1E7Xu0fbIFK80Nh5EoODxrbxwBQ==.
+info : Installed Microsoft.Extensions.Configuration.Abstractions 8.0.0 from https://api.nuget.org/v3/index.json to /home/ubuntu/.nuget/packages/microsoft.extensions.configuration.abstractions/8.0.0 with content hash 3lE/iLSutpgX1CC0NOW70FJoGARRHbyKmG7dc0klnUZ9Dd9hS6N/POPWhKhMLCEuNN5nXEY5agmlFtH562vqhQ==.
+info : Installed Microsoft.Extensions.Logging.Console 8.0.0 from https://api.nuget.org/v3/index.json to /home/ubuntu/.nuget/packages/microsoft.extensions.logging.console/8.0.0 with content hash e+48o7DztoYog+PY430lPxrM4mm3PbA6qucvQtUDDwVo4MO+ejMw7YGc/o2rnxbxj4isPxdfKFzTxvXMwAz83A==.
+info : Installed System.Text.Json 8.0.0 from https://api.nuget.org/v3/index.json to /home/ubuntu/.nuget/packages/system.text.json/8.0.0 with content hash OdrZO2WjkiEG6ajEFRABTRCi/wuXQPxeV6g8xvUJqdxMvvuCCEk86zPla8UiIQJz3durtUEbNyY/3lIhS0yZvQ==.
+info : Installed Microsoft.Extensions.DependencyInjection.Abstractions 8.0.0 from https://api.nuget.org/v3/index.json to /home/ubuntu/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/8.0.0 with content hash cjWrLkJXK0rs4zofsK4bSdg+jhDLTaxrkXu4gS6Y7MAlCvRyNNgwY/lJi5RDlQOnSZweHqoyvgvbdvQsRIW+hg==.
+info : Installed Microsoft.Extensions.Logging 8.0.0 from https://api.nuget.org/v3/index.json to /home/ubuntu/.nuget/packages/microsoft.extensions.logging/8.0.0 with content hash tvRkov9tAJ3xP51LCv3FJ2zINmv1P8Hi8lhhtcKGqM+ImiTCC84uOPEI4z8Cdq2C3o9e+Aa0Gw0rmrsJD77W+w==.
+info : Installed Microsoft.Extensions.Logging.Configuration 8.0.0 from https://api.nuget.org/v3/index.json to /home/ubuntu/.nuget/packages/microsoft.extensions.logging.configuration/8.0.0 with content hash ixXXV0G/12g6MXK65TLngYN9V5hQQRuV+fZi882WIoVJT7h5JvoYoxTEwCgdqwLjSneqh1O+66gM8sMr9z/rsQ==.
+info : Installed Microsoft.Extensions.Options 8.0.0 from https://api.nuget.org/v3/index.json to /home/ubuntu/.nuget/packages/microsoft.extensions.options/8.0.0 with content hash JOVOfqpnqlVLUzINQ2fox8evY2SKLYJ3BV8QDe/Jyp21u1T7r45x/R/5QdteURMR5r01GxeJSBBUOCOyaNXA3g==.
+info : Installed Microsoft.Extensions.Logging.Abstractions 8.0.0 from https://api.nuget.org/v3/index.json to /home/ubuntu/.nuget/packages/microsoft.extensions.logging.abstractions/8.0.0 with content hash arDBqTgFCyS0EvRV7O3MZturChstm50OJ0y9bDJvAcmEPJm0FFpFyjU/JLYyStNGGey081DvnQYlncNX5SJJGA==.
+info :   GET https://api.nuget.org/v3/vulnerabilities/index.json
+info :   OK https://api.nuget.org/v3/vulnerabilities/index.json 18ms
+info :   GET https://api.nuget.org/v3-vulnerabilities/2025.10.16.05.26.07/vulnerability.base.json
+info :   GET https://api.nuget.org/v3-vulnerabilities/2025.10.16.05.26.07/2025.10.16.05.26.07/vulnerability.update.json
+info :   OK https://api.nuget.org/v3-vulnerabilities/2025.10.16.05.26.07/vulnerability.base.json 18ms
+info :   OK https://api.nuget.org/v3-vulnerabilities/2025.10.16.05.26.07/2025.10.16.05.26.07/vulnerability.update.json 21ms
+info : Package 'Microsoft.Extensions.Logging.Console' is compatible with all the specified frameworks in project '/workspace/school-attendance-dashboard/SchoolAttendance.Dashboard.csproj'.
+info : PackageReference for package 'Microsoft.Extensions.Logging.Console' version '8.0.0' added to file '/workspace/school-attendance-dashboard/SchoolAttendance.Dashboard.csproj'.
+info : Generating MSBuild file /workspace/school-attendance-dashboard/obj/SchoolAttendance.Dashboard.csproj.nuget.g.targets.
+info : Writing assets file to disk. Path: /workspace/school-attendance-dashboard/obj/project.assets.json
+log  : Restored /workspace/school-attendance-dashboard/SchoolAttendance.Dashboard.csproj (in 2.05 sec).

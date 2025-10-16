@@ -1,0 +1,66 @@
+@page "/"
+
+@using SchoolAttendance.Dashboard.Services
+@inject AttendanceMetricsService Metrics
+
+<PageTitle>Attendance Dashboard</PageTitle>
+
+<h1>School Attendance Dashboard</h1>
+
+<div class="row">
+    <div class="col">
+        <h3>Today</h3>
+        <p><strong>Attendance Rate:</strong> @String.Format("{0:P1}", _today?.AttendanceRate ?? 0)</p>
+        <p><strong>Absent:</strong> @_today?.AbsentCount</p>
+        <p><strong>Present:</strong> @_today?.PresentCount</p>
+    </div>
+    <div class="col">
+        <h3>This Week</h3>
+        <p><strong>Attendance Rate:</strong> @String.Format("{0:P1}", _week?.AttendanceRate ?? 0)</p>
+        <p><strong>Average Present/Day:</strong> @_week?.AveragePresentPerDay</p>
+    </div>
+</div>
+
+<h3 class="mt-4">Recent Absences</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Student</th>
+            <th>Class</th>
+            <th>Reason</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (_recentAbsences is null || _recentAbsences.Count == 0)
+        {
+            <tr><td colspan="4">No recent absences.</td></tr>
+        }
+        else
+        {
+            @foreach (var a in _recentAbsences)
+            {
+                <tr>
+                    <td>@a.Date.ToString("yyyy-MM-dd")</td>
+                    <td>@a.StudentName</td>
+                    <td>@a.ClassName</td>
+                    <td>@a.Reason</td>
+                </tr>
+            }
+        }
+    </tbody>
+    
+</table>
+
+@code {
+    private DailySummary? _today;
+    private WeeklySummary? _week;
+    private List<RecentAbsenceRow> _recentAbsences = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _today = await Metrics.GetTodaySummaryAsync();
+        _week = await Metrics.GetCurrentWeekSummaryAsync();
+        _recentAbsences = await Metrics.GetRecentAbsencesAsync(10);
+    }
+}
