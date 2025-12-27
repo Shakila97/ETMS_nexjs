@@ -7,6 +7,7 @@ const User = require("../models/User")
 const Department = require("../models/Department")
 const { validateEmployee } = require("../utils/validators")
 const { adminOrManager, canAccessEmployee, canModifyEmployee } = require("../middleware/roleAuth")
+const { auth } = require("../middleware/auth")
 
 const router = express.Router()
 
@@ -46,7 +47,7 @@ const upload = multer({
 // @route   GET /api/employees
 // @desc    Get all employees with pagination, search, and filters
 // @access  Private (Admin/Manager)
-router.get("/", adminOrManager, async (req, res) => {
+router.get("/", ...adminOrManager, async (req, res) => {
   try {
     const {
       page = 1,
@@ -119,7 +120,7 @@ router.get("/", adminOrManager, async (req, res) => {
 // @route   GET /api/employees/:id
 // @desc    Get single employee
 // @access  Private
-router.get("/:id", canAccessEmployee, async (req, res) => {
+router.get("/:id", auth, canAccessEmployee, async (req, res) => {
   try {
     const employee = await Employee.findById(req.params.id)
       .populate("department", "name description manager")
@@ -148,7 +149,7 @@ router.get("/:id", canAccessEmployee, async (req, res) => {
 // @route   POST /api/employees
 // @desc    Create new employee
 // @access  Private (Admin/Manager)
-router.post("/", canModifyEmployee, validateEmployee, async (req, res) => {
+router.post("/", auth, canModifyEmployee, async (req, res) => {
   try {
     const {
       firstName,
@@ -164,6 +165,9 @@ router.post("/", canModifyEmployee, validateEmployee, async (req, res) => {
       emergencyContact,
       bankDetails,
       workSchedule,
+      employeeId,
+      createUserAccount,
+      password,
     } = req.body
 
     // Check if employee with email already exists
@@ -175,12 +179,26 @@ router.post("/", canModifyEmployee, validateEmployee, async (req, res) => {
       })
     }
 
-    // Generate unique employee ID
-    const lastEmployee = await Employee.findOne().sort({ employeeId: -1 })
-    let newEmployeeId = "EMP001"
-    if (lastEmployee && lastEmployee.employeeId) {
-      const lastId = Number.parseInt(lastEmployee.employeeId.replace("EMP", ""))
-      newEmployeeId = `EMP${String(lastId + 1).padStart(3, "0")}`
+    // Use provided employeeId or generate unique employee ID
+    let newEmployeeId = employeeId
+
+    if (!newEmployeeId) {
+      // Auto-generate if not provided
+      const lastEmployee = await Employee.findOne().sort({ employeeId: -1 })
+      newEmployeeId = "EMP001"
+      if (lastEmployee && lastEmployee.employeeId) {
+        const lastId = Number.parseInt(lastEmployee.employeeId.replace("EMP", ""))
+        newEmployeeId = `EMP${String(lastId + 1).padStart(3, "0")}`
+      }
+    } else {
+      // Check if provided employeeId already exists
+      const existingEmpId = await Employee.findOne({ employeeId: newEmployeeId })
+      if (existingEmpId) {
+        return res.status(400).json({
+          success: false,
+          message: `Employee with ID ${newEmployeeId} already exists`,
+        })
+      }
     }
 
     // Verify department exists
@@ -223,20 +241,47 @@ router.post("/", canModifyEmployee, validateEmployee, async (req, res) => {
 
     await employee.save()
 
+    // Create User Account if requested
+    let userCreated = false
+    if (createUserAccount) {
+      try {
+        // Check if user already exists
+        const existingUser = await User.findOne({ email })
+        if (!existingUser) {
+          const newUser = new User({
+            username: `${firstName} ${lastName}`,
+            email,
+            password: password || "Password@123", // Default password if not provided
+            role: "employee",
+            employee: employee._id,
+          })
+          await newUser.save()
+          userCreated = true
+        } else {
+          console.log(`User with email ${email} already exists, skipping user creation`)
+        }
+      } catch (userError) {
+        console.error("Failed to create user account:", userError)
+        // We don't fail the request if user creation fails, but we log it
+      }
+    }
+
     // Populate references for response
     await employee.populate("department", "name description")
     await employee.populate("manager", "firstName lastName employeeId")
 
     res.status(201).json({
       success: true,
-      message: "Employee created successfully",
+      message: userCreated
+        ? "Employee and user account created successfully"
+        : "Employee created successfully",
       data: { employee },
     })
   } catch (error) {
     console.error("Create employee error:", error)
     res.status(500).json({
       success: false,
-      message: "Server error",
+      message: "Server error" + error.message,
     })
   }
 })
@@ -244,7 +289,7 @@ router.post("/", canModifyEmployee, validateEmployee, async (req, res) => {
 // @route   PUT /api/employees/:id
 // @desc    Update employee
 // @access  Private (Admin/Manager)
-router.put("/:id", canModifyEmployee, async (req, res) => {
+router.put("/:id", auth, canModifyEmployee, async (req, res) => {
   try {
     const employee = await Employee.findById(req.params.id)
     if (!employee) {
@@ -343,7 +388,7 @@ router.put("/:id", canModifyEmployee, async (req, res) => {
 // @route   DELETE /api/employees/:id
 // @desc    Delete employee (soft delete)
 // @access  Private (Admin only)
-router.delete("/:id", adminOrManager, async (req, res) => {
+router.delete("/:id", ...adminOrManager, async (req, res) => {
   try {
     const employee = await Employee.findById(req.params.id)
     if (!employee) {
@@ -428,7 +473,7 @@ router.post("/:id/upload-photo", canAccessEmployee, upload.single("photo"), asyn
 // @route   GET /api/employees/stats/overview
 // @desc    Get employee statistics
 // @access  Private (Admin/Manager)
-router.get("/stats/overview", adminOrManager, async (req, res) => {
+router.get("/stats/overview", ...adminOrManager, async (req, res) => {
   try {
     const totalEmployees = await Employee.countDocuments()
     const activeEmployees = await Employee.countDocuments({ status: "active" })
@@ -504,7 +549,7 @@ router.get("/stats/overview", adminOrManager, async (req, res) => {
 // @route   POST /api/employees/bulk-import
 // @desc    Bulk import employees
 // @access  Private (Admin only)
-router.post("/bulk-import", adminOrManager, async (req, res) => {
+router.post("/bulk-import", ...adminOrManager, async (req, res) => {
   try {
     const { employees } = req.body
 

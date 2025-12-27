@@ -25,9 +25,17 @@ const auth = async (req, res, next) => {
     req.user = user
     next()
   } catch (error) {
-    res.status(401).json({
+    if (error.name === "JsonWebTokenError" || error.name === "TokenExpiredError") {
+      return res.status(401).json({
+        success: false,
+        message: "Token is not valid",
+      })
+    }
+
+    console.error("Auth middleware error:", error)
+    res.status(500).json({
       success: false,
-      message: "Token is not valid",
+      message: "Server error during authentication",
     })
   }
 }

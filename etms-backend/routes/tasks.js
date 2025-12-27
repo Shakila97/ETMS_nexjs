@@ -4,6 +4,7 @@ const path = require("path")
 const fs = require("fs")
 const Task = require("../models/Task")
 const Employee = require("../models/Employee")
+const { auth } = require("../middleware/auth")
 const { allRoles, canAssignTask } = require("../middleware/roleAuth")
 const { validateTask } = require("../utils/validators")
 
@@ -47,7 +48,7 @@ const upload = multer({
 // @route   POST /api/tasks
 // @desc    Create new task
 // @access  Private (Admin/Manager)
-router.post("/", canAssignTask, upload.array("attachments", 10), validateTask, async (req, res) => {
+router.post("/", auth, canAssignTask, upload.array("attachments", 10), validateTask, async (req, res) => {
   try {
     const { title, description, assignedTo, priority, dueDate, estimatedHours, tags } = req.body
 
@@ -78,7 +79,7 @@ router.post("/", canAssignTask, upload.array("attachments", 10), validateTask, a
       title,
       description,
       assignedTo,
-      assignedBy: req.user.employee._id,
+      assignedBy: req.user.employee ? req.user.employee._id : null,
       priority,
       dueDate: new Date(dueDate),
       estimatedHours: estimatedHours || 0,
@@ -88,7 +89,9 @@ router.post("/", canAssignTask, upload.array("attachments", 10), validateTask, a
 
     await task.save()
     await task.populate("assignedTo", "firstName lastName employeeId")
-    await task.populate("assignedBy", "firstName lastName employeeId")
+    if (task.assignedBy) {
+      await task.populate("assignedBy", "firstName lastName employeeId")
+    }
 
     res.status(201).json({
       success: true,
@@ -107,7 +110,7 @@ router.post("/", canAssignTask, upload.array("attachments", 10), validateTask, a
 // @route   GET /api/tasks
 // @desc    Get tasks with filters and pagination
 // @access  Private
-router.get("/", allRoles, async (req, res) => {
+router.get("/", ...allRoles, async (req, res) => {
   try {
     const {
       page = 1,
@@ -196,7 +199,7 @@ router.get("/", allRoles, async (req, res) => {
 // @route   GET /api/tasks/:id
 // @desc    Get single task
 // @access  Private
-router.get("/:id", allRoles, async (req, res) => {
+router.get("/:id", ...allRoles, async (req, res) => {
   try {
     const task = await Task.findById(req.params.id)
       .populate("assignedTo", "firstName lastName employeeId department email")
@@ -236,7 +239,7 @@ router.get("/:id", allRoles, async (req, res) => {
 // @route   PUT /api/tasks/:id
 // @desc    Update task
 // @access  Private
-router.put("/:id", allRoles, async (req, res) => {
+router.put("/:id", ...allRoles, async (req, res) => {
   try {
     const task = await Task.findById(req.params.id)
 
@@ -302,7 +305,7 @@ router.put("/:id", allRoles, async (req, res) => {
 // @route   PUT /api/tasks/:id/status
 // @desc    Update task status
 // @access  Private
-router.put("/:id/status", allRoles, async (req, res) => {
+router.put("/:id/status", ...allRoles, async (req, res) => {
   try {
     const { status, actualHours } = req.body
     const task = await Task.findById(req.params.id)
@@ -351,7 +354,7 @@ router.put("/:id/status", allRoles, async (req, res) => {
 // @route   POST /api/tasks/:id/comments
 // @desc    Add comment to task
 // @access  Private
-router.post("/:id/comments", allRoles, async (req, res) => {
+router.post("/:id/comments", ...allRoles, async (req, res) => {
   try {
     const { content } = req.body
     const task = await Task.findById(req.params.id)
@@ -411,7 +414,7 @@ router.post("/:id/comments", allRoles, async (req, res) => {
 // @route   DELETE /api/tasks/:id
 // @desc    Delete task
 // @access  Private (Admin/Manager)
-router.delete("/:id", canAssignTask, async (req, res) => {
+router.delete("/:id", auth, canAssignTask, async (req, res) => {
   try {
     const task = await Task.findById(req.params.id)
 
@@ -450,7 +453,7 @@ router.delete("/:id", canAssignTask, async (req, res) => {
 // @route   GET /api/tasks/stats/overview
 // @desc    Get task statistics
 // @access  Private
-router.get("/stats/overview", allRoles, async (req, res) => {
+router.get("/stats/overview", ...allRoles, async (req, res) => {
   try {
     const { employeeId, startDate, endDate } = req.query
 
@@ -550,7 +553,7 @@ router.get("/stats/overview", allRoles, async (req, res) => {
 // @route   GET /api/tasks/my-tasks
 // @desc    Get current user's tasks
 // @access  Private
-router.get("/my-tasks", allRoles, async (req, res) => {
+router.get("/my-tasks", ...allRoles, async (req, res) => {
   try {
     const { status, priority, limit = 10 } = req.query
 

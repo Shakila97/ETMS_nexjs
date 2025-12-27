@@ -109,7 +109,7 @@ const connectDB = async () => {
     try {
       await mongoose.connect(
         process.env.MONGODB_URI ||
-          "mongodb+srv://shakilasandun_db_user:hPKhSIyVvYSCNr6X@cluster0.ovmfsbu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
+        "mongodb+srv://shakilasandun_db_user:hPKhSIyVvYSCNr6X@cluster0.ovmfsbu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
         {
           maxPoolSize: 10,
           serverSelectionTimeoutMS: 5000,
@@ -148,7 +148,7 @@ app.use("/api/reports", require("./routes/reports"))
 app.use("/api/locations", require("./routes/locations"))
 
 // ✅ Test Route
-app.get("/test", (req, res) => {
+app.get("/api/test", (req, res) => {
   res.json({ success: true, message: "Hello from backend 🚀" })
 })
 

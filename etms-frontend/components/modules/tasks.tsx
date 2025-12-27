@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useCallback } from "react"
+import axios from "axios"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -29,7 +30,6 @@ import {
 } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import {
-  mockTasks,
   mockProjects,
   priorityColors,
   statusColors,
@@ -40,13 +40,22 @@ import {
 import type { User } from "@/lib/auth"
 import { cn } from "@/lib/utils"
 
+interface Employee {
+  _id: string
+  firstName: string
+  lastName: string
+  employeeId: string
+}
+
 interface TasksModuleProps {
   user: User
 }
 
 export function TasksModule({ user }: TasksModuleProps) {
-  const [tasks, setTasks] = useState<Task[]>(mockTasks)
+  const [tasks, setTasks] = useState<Task[]>([])
   const [projects, setProjects] = useState<Project[]>(mockProjects)
+  const [employees, setEmployees] = useState<Employee[]>([])
+  const [isLoading, setIsLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState("all")
   const [priorityFilter, setPriorityFilter] = useState("all")
@@ -55,6 +64,57 @@ export function TasksModule({ user }: TasksModuleProps) {
   const [isCreateProjectOpen, setIsCreateProjectOpen] = useState(false)
   const [selectedTask, setSelectedTask] = useState<Task | null>(null)
   const [isViewTaskOpen, setIsViewTaskOpen] = useState(false)
+  const [isEditing, setIsEditing] = useState(false)
+
+  // Form state
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    assignedTo: "",
+    priority: "medium",
+    project: "",
+    dueDate: "",
+    estimatedHours: "",
+    tags: "",
+    status: "todo"
+  })
+
+  const fetchTasks = useCallback(async () => {
+    try {
+      setIsLoading(true)
+      const response = await axios.get("/tasks")
+      // Transform API data to match Task interface if needed
+      // The API returns _id, but interface expects id. We map it.
+      const mappedTasks = response.data.data.tasks.map((task: any) => ({
+        ...task,
+        id: task._id,
+        assignedToName: task.assignedTo ? `${task.assignedTo.firstName} ${task.assignedTo.lastName}` : "Unassigned",
+        assignedByName: task.assignedBy ? `${task.assignedBy.firstName} ${task.assignedBy.lastName}` : "Unknown",
+        project: "General", // API doesn't have project field yet, defaulting
+        tags: task.tags || [],
+        comments: task.comments || []
+      }))
+      setTasks(mappedTasks)
+    } catch (error) {
+      console.error("Failed to fetch tasks:", error)
+    } finally {
+      setIsLoading(false)
+    }
+  }, [])
+
+  const fetchEmployees = useCallback(async () => {
+    try {
+      const response = await axios.get("/employees")
+      setEmployees(response.data.data.employees)
+    } catch (error) {
+      console.error("Failed to fetch employees:", error)
+    }
+  }, [])
+
+  useEffect(() => {
+    fetchTasks()
+    fetchEmployees()
+  }, [fetchTasks, fetchEmployees])
 
   // Filter tasks based on search and filters
   const filteredTasks = tasks.filter((task) => {
@@ -71,7 +131,7 @@ export function TasksModule({ user }: TasksModuleProps) {
   // Calculate summary stats
   const taskStats = {
     total: tasks.length,
-    todo: tasks.filter((t) => t.status === "todo").length,
+    todo: tasks.filter((t) => t.status === "todo" || t.status === "pending").length,
     inProgress: tasks.filter((t) => t.status === "in-progress").length,
     review: tasks.filter((t) => t.status === "review").length,
     completed: tasks.filter((t) => t.status === "completed").length,
@@ -83,18 +143,13 @@ export function TasksModule({ user }: TasksModuleProps) {
     setIsViewTaskOpen(true)
   }
 
-  const handleUpdateTaskStatus = (taskId: string, newStatus: Task["status"]) => {
-    setTasks((prev) =>
-      prev.map((task) =>
-        task.id === taskId
-          ? {
-              ...task,
-              status: newStatus,
-              completedDate: newStatus === "completed" ? new Date().toISOString().split("T")[0] : undefined,
-            }
-          : task,
-      ),
-    )
+  const handleUpdateTaskStatus = async (taskId: string, newStatus: Task["status"]) => {
+    try {
+      await axios.put(`/tasks/${taskId}/status`, { status: newStatus })
+      fetchTasks() // Refresh list
+    } catch (error) {
+      console.error("Failed to update task status:", error)
+    }
   }
 
   const getPriorityBadge = (priority: Task["priority"]) => {
@@ -135,6 +190,73 @@ export function TasksModule({ user }: TasksModuleProps) {
     )
   }
 
+  const handleEditTask = (task: Task) => {
+    setIsEditing(true)
+    setSelectedTask(task)
+    setFormData({
+      title: task.title,
+      description: task.description,
+      assignedTo: (task as any).assignedTo?._id || "", // Handle populated object
+      priority: task.priority,
+      project: task.project,
+      dueDate: task.dueDate ? new Date(task.dueDate).toISOString().split('T')[0] : "",
+      estimatedHours: task.estimatedHours.toString(),
+      tags: task.tags.join(", "),
+      status: task.status
+    })
+    setIsCreateTaskOpen(true)
+  }
+
+  const handleDeleteTask = async (taskId: string) => {
+    if (confirm("Are you sure you want to delete this task?")) {
+      try {
+        await axios.delete(`/tasks/${taskId}`)
+        fetchTasks()
+      } catch (error) {
+        console.error("Failed to delete task:", error)
+      }
+    }
+  }
+
+  const handleSubmit = async () => {
+    try {
+      const payload = {
+        ...formData,
+        estimatedHours: Number(formData.estimatedHours),
+        // Map status 'todo' to 'pending' if API expects 'pending'
+        status: formData.status === 'todo' ? 'pending' : formData.status
+      }
+
+      if (isEditing && selectedTask) {
+        await axios.put(`/tasks/${selectedTask.id}`, payload)
+      } else {
+        await axios.post("/tasks", payload)
+      }
+
+      setIsCreateTaskOpen(false)
+      fetchTasks()
+      resetForm()
+    } catch (error) {
+      console.error("Failed to save task:", error)
+    }
+  }
+
+  const resetForm = () => {
+    setFormData({
+      title: "",
+      description: "",
+      assignedTo: "",
+      priority: "medium",
+      project: "",
+      dueDate: "",
+      estimatedHours: "",
+      tags: "",
+      status: "todo"
+    })
+    setIsEditing(false)
+    setSelectedTask(null)
+  }
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -148,7 +270,10 @@ export function TasksModule({ user }: TasksModuleProps) {
             <Plus className="h-4 w-4 mr-2" />
             New Project
           </Button>
-          <Button onClick={() => setIsCreateTaskOpen(true)}>
+          <Button onClick={() => {
+            resetForm()
+            setIsCreateTaskOpen(true)
+          }}>
             <Plus className="h-4 w-4 mr-2" />
             New Task
           </Button>
@@ -310,83 +435,97 @@ export function TasksModule({ user }: TasksModuleProps) {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {filteredTasks.map((task) => {
-                      const isOverdue = new Date(task.dueDate) < new Date() && task.status !== "completed"
-                      const progressPercentage = task.actualHours
-                        ? Math.min((task.actualHours / task.estimatedHours) * 100, 100)
-                        : 0
+                    {isLoading ? (
+                      <TableRow>
+                        <TableCell colSpan={8} className="text-center py-8">
+                          Loading tasks...
+                        </TableCell>
+                      </TableRow>
+                    ) : filteredTasks.length === 0 ? (
+                      <TableRow>
+                        <TableCell colSpan={8} className="text-center py-8">
+                          No tasks found
+                        </TableCell>
+                      </TableRow>
+                    ) : (
+                      filteredTasks.map((task) => {
+                        const isOverdue = new Date(task.dueDate) < new Date() && task.status !== "completed"
+                        const progressPercentage = task.actualHours
+                          ? Math.min((task.actualHours / task.estimatedHours) * 100, 100)
+                          : 0
 
-                      return (
-                        <TableRow key={task.id}>
-                          <TableCell>
-                            <div>
-                              <div className="font-medium">{task.title}</div>
-                              <div className="text-sm text-muted-foreground truncate max-w-48">{task.description}</div>
-                            </div>
-                          </TableCell>
-                          <TableCell>
-                            <div className="flex items-center gap-2">
-                              <Avatar className="h-6 w-6">
-                                <AvatarImage src="/placeholder.svg" alt={task.assignedToName} />
-                                <AvatarFallback className="text-xs">
-                                  {task.assignedToName
-                                    .split(" ")
-                                    .map((n) => n[0])
-                                    .join("")}
-                                </AvatarFallback>
-                              </Avatar>
-                              <span className="text-sm">{task.assignedToName}</span>
-                            </div>
-                          </TableCell>
-                          <TableCell>
-                            <Badge variant="outline">{task.project}</Badge>
-                          </TableCell>
-                          <TableCell>{getPriorityBadge(task.priority)}</TableCell>
-                          <TableCell>{getStatusBadge(task.status)}</TableCell>
-                          <TableCell>
-                            <div className={cn("text-sm", isOverdue && "text-red-600 font-medium")}>
-                              {new Date(task.dueDate).toLocaleDateString()}
-                              {isOverdue && <div className="text-xs">Overdue</div>}
-                            </div>
-                          </TableCell>
-                          <TableCell>
-                            <div className="flex items-center gap-2">
-                              <Progress value={progressPercentage} className="w-16 h-2" />
-                              <span className="text-xs text-muted-foreground">{Math.round(progressPercentage)}%</span>
-                            </div>
-                          </TableCell>
-                          <TableCell>
-                            <DropdownMenu>
-                              <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" size="sm">
-                                  <MoreHorizontal className="h-4 w-4" />
-                                </Button>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent align="end">
-                                <DropdownMenuItem onClick={() => handleViewTask(task)}>
-                                  <Eye className="h-4 w-4 mr-2" />
-                                  View Details
-                                </DropdownMenuItem>
-                                <DropdownMenuItem>
-                                  <Edit className="h-4 w-4 mr-2" />
-                                  Edit Task
-                                </DropdownMenuItem>
-                                {task.status !== "completed" && (
-                                  <DropdownMenuItem onClick={() => handleUpdateTaskStatus(task.id, "completed")}>
-                                    <CheckCircle className="h-4 w-4 mr-2" />
-                                    Mark Complete
+                        return (
+                          <TableRow key={task.id}>
+                            <TableCell>
+                              <div>
+                                <div className="font-medium">{task.title}</div>
+                                <div className="text-sm text-muted-foreground truncate max-w-48">{task.description}</div>
+                              </div>
+                            </TableCell>
+                            <TableCell>
+                              <div className="flex items-center gap-2">
+                                <Avatar className="h-6 w-6">
+                                  <AvatarImage src="/placeholder.svg" alt={task.assignedToName} />
+                                  <AvatarFallback className="text-xs">
+                                    {task.assignedToName
+                                      .split(" ")
+                                      .map((n) => n[0])
+                                      .join("")}
+                                  </AvatarFallback>
+                                </Avatar>
+                                <span className="text-sm">{task.assignedToName}</span>
+                              </div>
+                            </TableCell>
+                            <TableCell>
+                              <Badge variant="outline">{task.project}</Badge>
+                            </TableCell>
+                            <TableCell>{getPriorityBadge(task.priority)}</TableCell>
+                            <TableCell>{getStatusBadge(task.status)}</TableCell>
+                            <TableCell>
+                              <div className={cn("text-sm", isOverdue && "text-red-600 font-medium")}>
+                                {new Date(task.dueDate).toLocaleDateString()}
+                                {isOverdue && <div className="text-xs">Overdue</div>}
+                              </div>
+                            </TableCell>
+                            <TableCell>
+                              <div className="flex items-center gap-2">
+                                <Progress value={progressPercentage} className="w-16 h-2" />
+                                <span className="text-xs text-muted-foreground">{Math.round(progressPercentage)}%</span>
+                              </div>
+                            </TableCell>
+                            <TableCell>
+                              <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                  <Button variant="ghost" size="sm">
+                                    <MoreHorizontal className="h-4 w-4" />
+                                  </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end">
+                                  <DropdownMenuItem onClick={() => handleViewTask(task)}>
+                                    <Eye className="h-4 w-4 mr-2" />
+                                    View Details
                                   </DropdownMenuItem>
-                                )}
-                                <DropdownMenuItem className="text-destructive">
-                                  <Trash2 className="h-4 w-4 mr-2" />
-                                  Delete
-                                </DropdownMenuItem>
-                              </DropdownMenuContent>
-                            </DropdownMenu>
-                          </TableCell>
-                        </TableRow>
-                      )
-                    })}
+                                  <DropdownMenuItem onClick={() => handleEditTask(task)}>
+                                    <Edit className="h-4 w-4 mr-2" />
+                                    Edit Task
+                                  </DropdownMenuItem>
+                                  {task.status !== "completed" && (
+                                    <DropdownMenuItem onClick={() => handleUpdateTaskStatus(task.id, "completed")}>
+                                      <CheckCircle className="h-4 w-4 mr-2" />
+                                      Mark Complete
+                                    </DropdownMenuItem>
+                                  )}
+                                  <DropdownMenuItem className="text-destructive" onClick={() => handleDeleteTask(task.id)}>
+                                    <Trash2 className="h-4 w-4 mr-2" />
+                                    Delete
+                                  </DropdownMenuItem>
+                                </DropdownMenuContent>
+                              </DropdownMenu>
+                            </TableCell>
+                          </TableRow>
+                        )
+                      })
+                    )}
                   </TableBody>
                 </Table>
               </div>
@@ -461,40 +600,57 @@ export function TasksModule({ user }: TasksModuleProps) {
         </TabsContent>
       </Tabs>
 
-      {/* Create Task Dialog */}
+      {/* Create/Edit Task Dialog */}
       <Dialog open={isCreateTaskOpen} onOpenChange={setIsCreateTaskOpen}>
         <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Create New Task</DialogTitle>
-            <DialogDescription>Add a new task to your project</DialogDescription>
+            <DialogTitle>{isEditing ? "Edit Task" : "Create New Task"}</DialogTitle>
+            <DialogDescription>{isEditing ? "Update task details" : "Add a new task to your project"}</DialogDescription>
           </DialogHeader>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4">
             <div className="space-y-2 md:col-span-2">
               <Label htmlFor="title">Task Title</Label>
-              <Input id="title" placeholder="Enter task title" />
+              <Input
+                id="title"
+                placeholder="Enter task title"
+                value={formData.title}
+                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+              />
             </div>
             <div className="space-y-2 md:col-span-2">
               <Label htmlFor="description">Description</Label>
-              <Textarea id="description" placeholder="Describe the task..." rows={3} />
+              <Textarea
+                id="description"
+                placeholder="Describe the task..."
+                rows={3}
+                value={formData.description}
+                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="assignee">Assign To</Label>
-              <Select>
+              <Select
+                value={formData.assignedTo}
+                onValueChange={(value) => setFormData({ ...formData, assignedTo: value })}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Select assignee" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="EMP001">John Smith</SelectItem>
-                  <SelectItem value="EMP002">Emily Johnson</SelectItem>
-                  <SelectItem value="EMP003">David Rodriguez</SelectItem>
-                  <SelectItem value="EMP004">Sarah Wilson</SelectItem>
-                  <SelectItem value="EMP005">Michael Brown</SelectItem>
+                  {employees.map((emp) => (
+                    <SelectItem key={emp._id} value={emp._id}>
+                      {emp.firstName} {emp.lastName} ({emp.employeeId})
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
             <div className="space-y-2">
               <Label htmlFor="project">Project</Label>
-              <Select>
+              <Select
+                value={formData.project}
+                onValueChange={(value) => setFormData({ ...formData, project: value })}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Select project" />
                 </SelectTrigger>
@@ -504,12 +660,16 @@ export function TasksModule({ user }: TasksModuleProps) {
                       {project.name}
                     </SelectItem>
                   ))}
+                  <SelectItem value="General">General</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div className="space-y-2">
               <Label htmlFor="priority">Priority</Label>
-              <Select>
+              <Select
+                value={formData.priority}
+                onValueChange={(value) => setFormData({ ...formData, priority: value })}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Select priority" />
                 </SelectTrigger>
@@ -523,22 +683,59 @@ export function TasksModule({ user }: TasksModuleProps) {
             </div>
             <div className="space-y-2">
               <Label htmlFor="dueDate">Due Date</Label>
-              <Input id="dueDate" type="date" />
+              <Input
+                id="dueDate"
+                type="date"
+                value={formData.dueDate}
+                onChange={(e) => setFormData({ ...formData, dueDate: e.target.value })}
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="estimatedHours">Estimated Hours</Label>
-              <Input id="estimatedHours" type="number" placeholder="8" />
+              <Input
+                id="estimatedHours"
+                type="number"
+                placeholder="8"
+                value={formData.estimatedHours}
+                onChange={(e) => setFormData({ ...formData, estimatedHours: e.target.value })}
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="tags">Tags</Label>
-              <Input id="tags" placeholder="frontend, ui, design" />
+              <Input
+                id="tags"
+                placeholder="frontend, ui, design"
+                value={formData.tags}
+                onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
+              />
             </div>
+            {isEditing && (
+              <div className="space-y-2">
+                <Label htmlFor="status">Status</Label>
+                <Select
+                  value={formData.status}
+                  onValueChange={(value) => setFormData({ ...formData, status: value })}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="todo">To Do</SelectItem>
+                    <SelectItem value="in-progress">In Progress</SelectItem>
+                    <SelectItem value="review">Review</SelectItem>
+                    <SelectItem value="completed">Completed</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
           </div>
           <div className="flex justify-end gap-2">
             <Button variant="outline" onClick={() => setIsCreateTaskOpen(false)}>
               Cancel
             </Button>
-            <Button onClick={() => setIsCreateTaskOpen(false)}>Create Task</Button>
+            <Button onClick={handleSubmit}>
+              {isEditing ? "Update Task" : "Create Task"}
+            </Button>
           </div>
         </DialogContent>
       </Dialog>

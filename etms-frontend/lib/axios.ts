@@ -1,20 +1,25 @@
 import axios from "axios";
-import { getCurrentUser } from "@/lib/auth";
 
-const instance = axios.create({
+const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api",
 });
 
-instance.interceptors.request.use(
-  (config) => {
-    const user = getCurrentUser();
-    if (user?.token) {
-      config.headers = config.headers || {};
-      config.headers["Authorization"] = `Bearer ${user.token}`;
+api.interceptors.request.use((config) => {
+  if (typeof window !== "undefined") {
+    const userStr = localStorage.getItem("user");
+    if (userStr) {
+      try {
+        const user = JSON.parse(userStr);
+        if (user?.token) {
+          config.headers = config.headers || {};
+          config.headers.Authorization = `Bearer ${user.token}`;
+        }
+      } catch {
+        /* ignore parse errors */
+      }
     }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
+  }
+  return config;
+});
 
-export default instance;
+export default api;

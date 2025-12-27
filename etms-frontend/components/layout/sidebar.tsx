@@ -15,6 +15,7 @@ import {
   Menu,
   X,
   Building2,
+  Building,
 } from "lucide-react"
 import type { User } from "@/lib/auth"
 import { cn } from "@/lib/utils"
@@ -28,6 +29,7 @@ interface SidebarProps {
 
 const navigationItems = [
   { id: "dashboard", label: "Dashboard", icon: BarChart3 },
+  { id: "departments", label: "Departments", icon: Building },
   { id: "employees", label: "Employees", icon: Users },
   { id: "attendance", label: "Attendance", icon: Clock },
   { id: "leave", label: "Leave Management", icon: Calendar },

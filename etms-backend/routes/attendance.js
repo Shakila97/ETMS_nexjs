@@ -21,8 +21,12 @@ router.post(
   ],
   async (req, res) => {
     try {
+      console.log("🔍 Check-in request received from user:", req.user?.username)
+      console.log("🔍 User employee link:", req.user?.employee ? "EXISTS" : "MISSING")
+
       const errors = validationResult(req)
       if (!errors.isEmpty()) {
+        console.log("❌ Validation errors:", errors.array())
         return res.status(400).json({
           success: false,
           message: "Validation errors",
@@ -31,7 +35,17 @@ router.post(
       }
 
       const { latitude, longitude, address, method = "manual" } = req.body
+
+      if (!req.user.employee) {
+        console.log("❌ User is not linked to an employee record")
+        return res.status(400).json({
+          success: false,
+          message: "User is not linked to an employee record",
+        })
+      }
+
       const employeeId = req.user.employee._id
+      console.log("✅ Employee ID:", employeeId)
 
       // Get today's date
       const today = moment().startOf("day").toDate()
@@ -44,6 +58,7 @@ router.post(
       })
 
       if (existingAttendance && existingAttendance.checkIn.time) {
+        console.log("❌ Already checked in today:", existingAttendance._id)
         return res.status(400).json({
           success: false,
           message: "Already checked in today",
@@ -120,6 +135,14 @@ router.post(
       }
 
       const { latitude, longitude, address, method = "manual" } = req.body
+
+      if (!req.user.employee) {
+        return res.status(400).json({
+          success: false,
+          message: "User is not linked to an employee record",
+        })
+      }
+
       const employeeId = req.user.employee._id
 
       // Get today's date
@@ -206,6 +229,12 @@ router.post(
 // @access  Private
 router.post("/break-start", allRoles, async (req, res) => {
   try {
+    if (!req.user.employee) {
+      return res.status(400).json({
+        success: false,
+        message: "User is not linked to an employee record",
+      })
+    }
     const employeeId = req.user.employee._id
 
     // Get today's date
@@ -261,6 +290,12 @@ router.post("/break-start", allRoles, async (req, res) => {
 // @access  Private
 router.post("/break-end", allRoles, async (req, res) => {
   try {
+    if (!req.user.employee) {
+      return res.status(400).json({
+        success: false,
+        message: "User is not linked to an employee record",
+      })
+    }
     const employeeId = req.user.employee._id
 
     // Get today's date
@@ -335,6 +370,20 @@ router.get("/", allRoles, async (req, res) => {
 
     // Role-based access control
     if (req.user.role === "employee") {
+      if (!req.user.employee) {
+        return res.json({
+          success: true,
+          data: {
+            attendance: [],
+            pagination: {
+              current: Number.parseInt(page),
+              pages: 0,
+              total: 0,
+              limit: Number.parseInt(limit),
+            },
+          },
+        })
+      }
       query.employee = req.user.employee._id
     } else if (employeeId) {
       query.employee = employeeId
@@ -391,6 +440,13 @@ router.get("/", allRoles, async (req, res) => {
 // @access  Private
 router.get("/today", allRoles, async (req, res) => {
   try {
+    if (!req.user.employee) {
+      return res.json({
+        success: true,
+        data: { attendance: null },
+      })
+    }
+
     const employeeId = req.user.employee._id
 
     // Get today's date
@@ -427,6 +483,23 @@ router.get("/stats", allRoles, async (req, res) => {
 
     // Role-based access control
     if (req.user.role === "employee") {
+      if (!req.user.employee) {
+        return res.json({
+          success: true,
+          data: {
+            stats: {
+              totalDays: 0,
+              presentDays: 0,
+              absentDays: 0,
+              lateDays: 0,
+              totalHours: 0,
+              totalOvertimeHours: 0,
+              averageHours: 0,
+              attendancePercentage: 0,
+            },
+          },
+        })
+      }
       query.employee = req.user.employee._id
     } else if (employeeId) {
       query.employee = employeeId

@@ -1,10 +1,11 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import axios from "axios" // ✅ import axios
+import api from "@/lib/axios" // ✅ import configured axios instance
 import { LoginForm } from "@/components/auth/login-form"
 import { Sidebar } from "@/components/layout/sidebar"
 import { DashboardModule } from "@/components/modules/dashboard"
+import { DepartmentsModule } from "@/components/modules/departments"
 import { EmployeesModule } from "@/components/modules/employees"
 import { AttendanceModule } from "@/components/modules/attendance"
 import { LeaveModule } from "@/components/modules/leave"
@@ -20,8 +21,8 @@ export default function HomePage() {
 
   // ✅ Example backend connection test
   useEffect(() => {
-    axios
-      .get(`${process.env.NEXT_PUBLIC_API_URL}/api/test`)
+    api
+      .get("/test")
       .then((res) => {
         console.log("✅ Backend Response:", res.data)
       })
@@ -73,6 +74,7 @@ export default function HomePage() {
       <main className="flex-1 overflow-auto">
         <div className="p-6">
           {activeModule === "dashboard" && <DashboardModule user={user} />}
+          {activeModule === "departments" && <DepartmentsModule user={user} />}
           {activeModule === "employees" && <EmployeesModule user={user} />}
           {activeModule === "attendance" && <AttendanceModule user={user} />}
           {activeModule === "leave" && <LeaveModule user={user} />}
