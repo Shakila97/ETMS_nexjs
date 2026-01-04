@@ -12,6 +12,8 @@ export const metadata: Metadata = {
   generator: "v0.app",
 }
 
+import { AuthProvider } from "@/lib/auth"
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -20,7 +22,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
-        <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+        <AuthProvider>
+          <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+        </AuthProvider>
         <Analytics />
       </body>
     </html>

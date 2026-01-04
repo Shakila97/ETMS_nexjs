@@ -230,3 +230,75 @@
 {"timestamp":"2025-12-26T19:38:01.201Z","duration":"3854ms","method":"GET","url":"/api/attendance","user":"adminSH(admin)","ip":"::1"}
 {"timestamp":"2025-12-26T19:38:02.757Z","duration":"1467ms","method":"GET","url":"/api/attendance/today","user":"adminSH(admin)","ip":"::1"}
 {"timestamp":"2025-12-26T19:38:06.403Z","duration":"3596ms","method":"GET","url":"/api/attendance/stats","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2025-12-27T20:24:24.144Z","duration":"6001ms","method":"POST","url":"/api/auth/login","user":"anonymous","ip":"::1"}
+{"timestamp":"2025-12-27T20:25:00.834Z","duration":"1481ms","method":"GET","url":"/api/employees","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2025-12-27T20:25:00.911Z","duration":"1412ms","method":"GET","url":"/api/employees?role=manager","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2025-12-27T20:25:01.034Z","duration":"1567ms","method":"GET","url":"/api/departments","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2025-12-27T20:35:41.227Z","duration":"1064ms","method":"GET","url":"/api/attendance","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2025-12-27T20:35:55.509Z","duration":"1825ms","method":"GET","url":"/api/employees?role=manager","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2025-12-27T20:35:55.749Z","duration":"2072ms","method":"GET","url":"/api/departments","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2025-12-27T20:37:51.178Z","duration":"1696ms","method":"GET","url":"/api/employees?role=manager","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2025-12-28T05:49:48.961Z","duration":"4213ms","method":"GET","url":"/api/test","user":"anonymous","ip":"::1"}
+{"timestamp":"2025-12-28T09:06:12.451Z","duration":"2282ms","method":"POST","url":"/api/auth/login","user":"anonymous","ip":"::1"}
+{"timestamp":"2025-12-28T09:06:20.420Z","duration":"1006ms","method":"GET","url":"/api/attendance","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2025-12-28T09:06:37.734Z","duration":"1144ms","method":"GET","url":"/api/departments","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2025-12-28T09:20:04.603Z","duration":"2056ms","method":"GET","url":"/api/departments","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2025-12-28T09:20:05.281Z","duration":"2727ms","method":"GET","url":"/api/employees?role=manager","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2025-12-28T09:20:05.463Z","duration":"2926ms","method":"GET","url":"/api/employees","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2025-12-28T11:23:19.945Z","duration":"1904ms","method":"POST","url":"/api/auth/login","user":"anonymous","ip":"::1"}
+{"timestamp":"2025-12-28T11:46:48.464Z","duration":"4423ms","method":"POST","url":"/api/auth/login","user":"anonymous","ip":"::1"}
+{"timestamp":"2025-12-28T11:47:52.811Z","duration":"8129ms","method":"POST","url":"/api/auth/login","user":"anonymous","ip":"::1"}
+{"timestamp":"2025-12-28T13:36:12.016Z","duration":"1557ms","method":"POST","url":"/api/auth/login","user":"anonymous","ip":"::1"}
+{"timestamp":"2025-12-28T13:36:32.603Z","duration":"19737ms","method":"GET","url":"/api/employees","user":"New Admin(admin)","ip":"::1"}
+{"timestamp":"2025-12-28T13:36:34.199Z","duration":"1585ms","method":"POST","url":"/api/payroll/calculate","user":"New Admin(admin)","ip":"::1"}
+{"timestamp":"2025-12-28T13:44:12.142Z","duration":"1239ms","method":"GET","url":"/api/auth/me","user":"New Admin(admin)","ip":"::1"}
+{"timestamp":"2025-12-28T13:44:17.556Z","duration":"5408ms","method":"GET","url":"/api/employees","user":"New Admin(admin)","ip":"::1"}
+{"timestamp":"2025-12-28T13:44:21.400Z","duration":"3833ms","method":"POST","url":"/api/payroll/calculate","user":"New Admin(admin)","ip":"::1"}
+{"timestamp":"2025-12-28T13:45:29.109Z","duration":"2752ms","method":"GET","url":"/api/employees","user":"New Admin(admin)","ip":"::1"}
+{"timestamp":"2025-12-28T13:45:30.432Z","duration":"1321ms","method":"POST","url":"/api/payroll/calculate","user":"New Admin(admin)","ip":"::1"}
+{"timestamp":"2025-12-28T13:54:21.265Z","duration":"2328ms","method":"GET","url":"/api/attendance","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2025-12-28T14:15:37.255Z","duration":"1648ms","method":"POST","url":"/api/auth/login","user":"anonymous","ip":"::1"}
+{"timestamp":"2025-12-28T14:20:45.896Z","duration":"1605ms","method":"GET","url":"/api/payroll/stats/overview","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2025-12-28T14:32:52.531Z","duration":"1060ms","method":"GET","url":"/api/attendance","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2025-12-28T14:33:02.863Z","duration":"6996ms","method":"GET","url":"/api/employees","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2025-12-28T14:33:03.087Z","duration":"7214ms","method":"GET","url":"/api/employees?role=manager","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2025-12-28T14:33:04.686Z","duration":"8807ms","method":"GET","url":"/api/departments","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2025-12-28T14:33:12.791Z","duration":"9925ms","method":"GET","url":"/api/employees","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2025-12-28T14:33:13.018Z","duration":"9927ms","method":"GET","url":"/api/employees?role=manager","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2025-12-28T14:33:15.170Z","duration":"10481ms","method":"GET","url":"/api/departments","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2025-12-28T14:33:15.534Z","duration":"2513ms","method":"GET","url":"/api/employees?role=manager","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2025-12-28T14:33:17.712Z","duration":"2540ms","method":"GET","url":"/api/departments","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2025-12-28T14:33:17.880Z","duration":"2343ms","method":"GET","url":"/api/employees?role=manager","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2025-12-28T14:33:19.757Z","duration":"2040ms","method":"GET","url":"/api/departments","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2025-12-28T14:33:20.309Z","duration":"1989ms","method":"GET","url":"/api/employees?role=manager","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2025-12-28T14:33:34.280Z","duration":"13968ms","method":"GET","url":"/api/employees?role=manager","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2025-12-28T14:33:34.284Z","duration":"14524ms","method":"GET","url":"/api/departments","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2025-12-28T14:33:46.639Z","duration":"21875ms","method":"GET","url":"/api/departments","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2025-12-28T14:48:44.720Z","duration":"22421ms","method":"GET","url":"/api/payroll/stats/overview","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2025-12-28T14:48:59.647Z","duration":"17346ms","method":"GET","url":"/api/payroll/stats/overview","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2025-12-28T14:49:01.477Z","duration":"19180ms","method":"GET","url":"/api/payroll?limit=50","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2025-12-28T14:49:03.039Z","duration":"10294ms","method":"GET","url":"/api/payroll?limit=50","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2025-12-28T14:51:50.200Z","duration":"1001ms","method":"GET","url":"/api/departments","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2025-12-28T14:51:50.223Z","duration":"1017ms","method":"GET","url":"/api/employees?role=manager","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2025-12-28T14:52:06.041Z","duration":"1419ms","method":"GET","url":"/api/employees?role=manager","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2025-12-28T14:52:06.064Z","duration":"1449ms","method":"GET","url":"/api/departments","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2025-12-28T14:52:06.948Z","duration":"1413ms","method":"GET","url":"/api/employees","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2025-12-28T14:52:07.071Z","duration":"1027ms","method":"GET","url":"/api/employees?role=manager","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2025-12-28T14:52:07.223Z","duration":"1157ms","method":"GET","url":"/api/departments","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2025-12-28T14:52:10.674Z","duration":"1020ms","method":"GET","url":"/api/employees?role=manager","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2025-12-28T14:52:10.677Z","duration":"1017ms","method":"GET","url":"/api/departments","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2026-01-03T18:32:00.391Z","duration":"1116ms","method":"GET","url":"/api/employees?status=active&limit=100","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2026-01-03T18:32:55.386Z","duration":"1018ms","method":"GET","url":"/api/employees?role=manager","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2026-01-03T18:32:55.701Z","duration":"1342ms","method":"GET","url":"/api/departments","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2026-01-03T18:33:23.968Z","duration":"1271ms","method":"GET","url":"/api/payroll/stats/overview","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2026-01-03T18:33:24.904Z","duration":"2215ms","method":"GET","url":"/api/payroll?limit=50","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2026-01-03T18:33:27.311Z","duration":"3294ms","method":"GET","url":"/api/payroll/stats/overview","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2026-01-03T18:33:28.208Z","duration":"3629ms","method":"GET","url":"/api/employees?status=active&limit=100","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2026-01-03T18:33:28.725Z","duration":"3817ms","method":"GET","url":"/api/payroll?limit=50","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2026-01-03T18:33:29.974Z","duration":"1762ms","method":"GET","url":"/api/employees?status=active&limit=100","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2026-01-03T18:36:04.867Z","duration":"1802ms","method":"GET","url":"/api/employees?status=active&limit=100","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2026-01-03T18:40:21.333Z","duration":"1169ms","method":"GET","url":"/api/employees?status=active&limit=100","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2026-01-03T18:41:22.081Z","duration":"1327ms","method":"GET","url":"/api/employees?status=active&limit=100","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2026-01-03T18:41:23.736Z","duration":"1649ms","method":"GET","url":"/api/employees?status=active&limit=100","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2026-01-03T18:41:25.188Z","duration":"2944ms","method":"GET","url":"/api/departments","user":"adminSH(admin)","ip":"::1"}
+{"timestamp":"2026-01-03T18:41:28.485Z","duration":"3295ms","method":"GET","url":"/api/departments","user":"adminSH(admin)","ip":"::1"}

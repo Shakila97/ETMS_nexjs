@@ -4,6 +4,7 @@ const Payroll = require("../models/Payroll")
 const Employee = require("../models/Employee")
 const Attendance = require("../models/Attendance")
 const { adminOrManager, canAccessPayroll } = require("../middleware/roleAuth")
+const { auth } = require("../middleware/auth")
 const { body, validationResult } = require("express-validator")
 
 const router = express.Router()
@@ -156,7 +157,7 @@ router.post(
 // @route   GET /api/payroll
 // @desc    Get payroll records
 // @access  Private
-router.get("/", canAccessPayroll, async (req, res) => {
+router.get("/", auth, canAccessPayroll, async (req, res) => {
   try {
     const {
       page = 1,
@@ -229,7 +230,7 @@ router.get("/", canAccessPayroll, async (req, res) => {
 // @route   GET /api/payroll/:id
 // @desc    Get single payroll record
 // @access  Private
-router.get("/:id", canAccessPayroll, async (req, res) => {
+router.get("/:id", auth, canAccessPayroll, async (req, res) => {
   try {
     const payroll = await Payroll.findById(req.params.id)
       .populate("employee", "firstName lastName employeeId department email")

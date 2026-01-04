@@ -126,9 +126,10 @@ const canAccessPayroll = async (req, res, next) => {
       message: "Access denied. You can only access your own payroll data.",
     })
   } catch (error) {
+    console.error("canAccessPayroll error:", error);
     return res.status(500).json({
       success: false,
-      message: "Server error during authorization check",
+      message: "Server error during authorization check: " + error.message,
     })
   }
 }

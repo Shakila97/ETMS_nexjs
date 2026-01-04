@@ -16,6 +16,7 @@ import {
   X,
   Building2,
   Building,
+  CreditCard,
 } from "lucide-react"
 import type { User } from "@/lib/auth"
 import { cn } from "@/lib/utils"
@@ -35,6 +36,7 @@ const navigationItems = [
   { id: "leave", label: "Leave Management", icon: Calendar },
   { id: "tasks", label: "Task Management", icon: CheckSquare },
   { id: "performance", label: "Performance", icon: TrendingUp },
+  { id: "payroll", label: "Payroll", icon: CreditCard },
   { id: "reports", label: "Reports", icon: BarChart3 },
 ]
 

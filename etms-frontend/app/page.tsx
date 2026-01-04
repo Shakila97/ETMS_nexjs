@@ -12,6 +12,7 @@ import { LeaveModule } from "@/components/modules/leave"
 import { TasksModule } from "@/components/modules/tasks"
 import { PerformanceModule } from "@/components/modules/performance"
 import { AnalyticsModule } from "@/components/modules/analytics"
+import { PayrollModule } from "@/components/modules/payroll"
 import { type User, getCurrentUser, setCurrentUser } from "@/lib/auth"
 
 export default function HomePage() {
@@ -81,6 +82,7 @@ export default function HomePage() {
           {activeModule === "tasks" && <TasksModule user={user} />}
           {activeModule === "performance" && <PerformanceModule user={user} />}
           {activeModule === "reports" && <AnalyticsModule user={user} />}
+          {activeModule === "payroll" && <PayrollModule user={user} />}
         </div>
       </main>
     </div>
