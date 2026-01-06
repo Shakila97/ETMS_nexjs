@@ -146,6 +146,7 @@ app.use("/api/departments", require("./routes/departments"))
 app.use("/api/payroll", require("./routes/payroll"))
 app.use("/api/reports", require("./routes/reports"))
 app.use("/api/locations", require("./routes/locations"))
+app.use("/api/projects", require("./routes/projects"))
 
 // ✅ Test Route
 app.get("/api/test", (req, res) => {

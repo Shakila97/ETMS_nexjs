@@ -50,7 +50,7 @@ const upload = multer({
 // @access  Private (Admin/Manager)
 router.post("/", auth, canAssignTask, upload.array("attachments", 10), validateTask, async (req, res) => {
   try {
-    const { title, description, assignedTo, priority, dueDate, estimatedHours, tags } = req.body
+    const { title, description, assignedTo, priority, dueDate, estimatedHours, tags, project } = req.body
 
     // Verify assigned employee exists
     const employee = await Employee.findById(assignedTo)
@@ -85,10 +85,14 @@ router.post("/", auth, canAssignTask, upload.array("attachments", 10), validateT
       estimatedHours: estimatedHours || 0,
       attachments,
       tags: tags ? tags.split(",").map((tag) => tag.trim()) : [],
+      project,
     })
 
     await task.save()
     await task.populate("assignedTo", "firstName lastName employeeId")
+    if (task.project) {
+      await task.populate("project", "name")
+    }
     if (task.assignedBy) {
       await task.populate("assignedBy", "firstName lastName employeeId")
     }
@@ -169,6 +173,7 @@ router.get("/", ...allRoles, async (req, res) => {
     const tasks = await Task.find(query)
       .populate("assignedTo", "firstName lastName employeeId department")
       .populate("assignedBy", "firstName lastName employeeId")
+      .populate("project", "name status")
       .sort(sortOptions)
       .skip(skip)
       .limit(Number.parseInt(limit))
@@ -204,6 +209,7 @@ router.get("/:id", ...allRoles, async (req, res) => {
     const task = await Task.findById(req.params.id)
       .populate("assignedTo", "firstName lastName employeeId department email")
       .populate("assignedBy", "firstName lastName employeeId")
+      .populate("project", "name description status") // Populate project details
       .populate("comments.author", "firstName lastName employeeId")
 
     if (!task) {
@@ -263,7 +269,7 @@ router.put("/:id", ...allRoles, async (req, res) => {
       })
     }
 
-    const { title, description, assignedTo, priority, dueDate, estimatedHours, tags, status } = req.body
+    const { title, description, assignedTo, priority, dueDate, estimatedHours, tags, status, project } = req.body
 
     // Update fields
     if (title) task.title = title
@@ -278,6 +284,7 @@ router.put("/:id", ...allRoles, async (req, res) => {
       }
       task.assignedTo = assignedTo
     }
+    if (project) task.project = project
     if (priority) task.priority = priority
     if (dueDate) task.dueDate = new Date(dueDate)
     if (estimatedHours !== undefined) task.estimatedHours = estimatedHours

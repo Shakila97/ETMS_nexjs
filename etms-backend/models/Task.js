@@ -7,6 +7,12 @@ const taskSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    // New Project Reference
+    project: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Project",
+      required: false, // Make optional for now in case of legacy data or general tasks
+    },
     description: {
       type: String,
       required: true,

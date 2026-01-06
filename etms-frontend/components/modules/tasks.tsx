@@ -53,7 +53,7 @@ interface TasksModuleProps {
 
 export function TasksModule({ user }: TasksModuleProps) {
   const [tasks, setTasks] = useState<Task[]>([])
-  const [projects, setProjects] = useState<Project[]>(mockProjects)
+  const [projects, setProjects] = useState<Project[]>([])
   const [employees, setEmployees] = useState<Employee[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState("")
@@ -63,6 +63,16 @@ export function TasksModule({ user }: TasksModuleProps) {
   const [isCreateTaskOpen, setIsCreateTaskOpen] = useState(false)
   const [isCreateProjectOpen, setIsCreateProjectOpen] = useState(false)
   const [selectedTask, setSelectedTask] = useState<Task | null>(null)
+
+  // Project Form State
+  const [projectFormData, setProjectFormData] = useState({
+    name: "",
+    description: "",
+    manager: "",
+    status: "planning",
+    startDate: "",
+    endDate: "",
+  })
   const [isViewTaskOpen, setIsViewTaskOpen] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
 
@@ -90,7 +100,8 @@ export function TasksModule({ user }: TasksModuleProps) {
         id: task._id,
         assignedToName: task.assignedTo ? `${task.assignedTo.firstName} ${task.assignedTo.lastName}` : "Unassigned",
         assignedByName: task.assignedBy ? `${task.assignedBy.firstName} ${task.assignedBy.lastName}` : "Unknown",
-        project: "General", // API doesn't have project field yet, defaulting
+        project: task.project ? task.project.name : "General",
+        projectId: task.project ? task.project._id : null,
         tags: task.tags || [],
         comments: task.comments || []
       }))
@@ -111,10 +122,26 @@ export function TasksModule({ user }: TasksModuleProps) {
     }
   }, [])
 
+  const fetchProjects = useCallback(async () => {
+    try {
+      const response = await axios.get("/projects")
+      const mappedProjects = response.data.data.projects.map((p: any) => ({
+        ...p,
+        id: p._id,
+        managerName: p.manager ? `${p.manager.firstName} ${p.manager.lastName}` : "Unknown",
+        teamMembers: p.teamMembers ? p.teamMembers.map((tm: any) => tm._id) : []
+      }))
+      setProjects(mappedProjects)
+    } catch (error) {
+      console.error("Failed to fetch projects:", error)
+    }
+  }, [])
+
   useEffect(() => {
     fetchTasks()
     fetchEmployees()
-  }, [fetchTasks, fetchEmployees])
+    fetchProjects()
+  }, [fetchTasks, fetchEmployees, fetchProjects])
 
   // Filter tasks based on search and filters
   const filteredTasks = tasks.filter((task) => {
@@ -198,13 +225,32 @@ export function TasksModule({ user }: TasksModuleProps) {
       description: task.description,
       assignedTo: (task as any).assignedTo?._id || "", // Handle populated object
       priority: task.priority,
-      project: task.project,
+      project: (task as any).projectId || "",
       dueDate: task.dueDate ? new Date(task.dueDate).toISOString().split('T')[0] : "",
       estimatedHours: task.estimatedHours.toString(),
       tags: task.tags.join(", "),
       status: task.status
     })
     setIsCreateTaskOpen(true)
+  }
+
+  const handleCreateProject = async () => {
+    try {
+      await axios.post("/projects", projectFormData)
+      setIsCreateProjectOpen(false)
+      fetchProjects()
+      // Reset form
+      setProjectFormData({
+        name: "",
+        description: "",
+        manager: "",
+        status: "planning",
+        startDate: "",
+        endDate: "",
+      })
+    } catch (error) {
+      console.error("Failed to create project:", error)
+    }
   }
 
   const handleDeleteTask = async (taskId: string) => {
@@ -656,11 +702,10 @@ export function TasksModule({ user }: TasksModuleProps) {
                 </SelectTrigger>
                 <SelectContent>
                   {projects.map((project) => (
-                    <SelectItem key={project.id} value={project.name}>
+                    <SelectItem key={project.id} value={project.id}>
                       {project.name}
                     </SelectItem>
                   ))}
-                  <SelectItem value="General">General</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -738,10 +783,10 @@ export function TasksModule({ user }: TasksModuleProps) {
             </Button>
           </div>
         </DialogContent>
-      </Dialog>
+      </Dialog >
 
       {/* Create Project Dialog */}
-      <Dialog open={isCreateProjectOpen} onOpenChange={setIsCreateProjectOpen}>
+      < Dialog open={isCreateProjectOpen} onOpenChange={setIsCreateProjectOpen} >
         <DialogContent className="max-w-2xl">
           <DialogHeader>
             <DialogTitle>Create New Project</DialogTitle>
@@ -750,28 +795,30 @@ export function TasksModule({ user }: TasksModuleProps) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4">
             <div className="space-y-2 md:col-span-2">
               <Label htmlFor="projectName">Project Name</Label>
-              <Input id="projectName" placeholder="Enter project name" />
+              <Input id="projectName" placeholder="Enter project name" value={projectFormData.name} onChange={(e) => setProjectFormData({ ...projectFormData, name: e.target.value })} />
             </div>
             <div className="space-y-2 md:col-span-2">
               <Label htmlFor="projectDescription">Description</Label>
-              <Textarea id="projectDescription" placeholder="Describe the project..." rows={3} />
+              <Textarea id="projectDescription" placeholder="Describe the project..." rows={3} value={projectFormData.description} onChange={(e) => setProjectFormData({ ...projectFormData, description: e.target.value })} />
             </div>
             <div className="space-y-2">
               <Label htmlFor="manager">Project Manager</Label>
-              <Select>
+              <Select value={projectFormData.manager} onValueChange={(value) => setProjectFormData({ ...projectFormData, manager: value })}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select manager" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="EMP001">John Smith</SelectItem>
-                  <SelectItem value="EMP002">Emily Johnson</SelectItem>
-                  <SelectItem value="EMP004">Sarah Wilson</SelectItem>
+                  {employees.length > 0 ? employees.map(emp => (
+                    <SelectItem key={emp._id} value={emp._id}>{emp.firstName} {emp.lastName}</SelectItem>
+                  )) : (
+                    <SelectItem value="none" disabled>No employees found</SelectItem>
+                  )}
                 </SelectContent>
               </Select>
             </div>
             <div className="space-y-2">
               <Label htmlFor="status">Status</Label>
-              <Select>
+              <Select value={projectFormData.status} onValueChange={(value) => setProjectFormData({ ...projectFormData, status: value })}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select status" />
                 </SelectTrigger>
@@ -784,24 +831,24 @@ export function TasksModule({ user }: TasksModuleProps) {
             </div>
             <div className="space-y-2">
               <Label htmlFor="startDate">Start Date</Label>
-              <Input id="startDate" type="date" />
+              <Input id="startDate" type="date" value={projectFormData.startDate} onChange={(e) => setProjectFormData({ ...projectFormData, startDate: e.target.value })} />
             </div>
             <div className="space-y-2">
               <Label htmlFor="endDate">End Date</Label>
-              <Input id="endDate" type="date" />
+              <Input id="endDate" type="date" value={projectFormData.endDate} onChange={(e) => setProjectFormData({ ...projectFormData, endDate: e.target.value })} />
             </div>
           </div>
           <div className="flex justify-end gap-2">
             <Button variant="outline" onClick={() => setIsCreateProjectOpen(false)}>
               Cancel
             </Button>
-            <Button onClick={() => setIsCreateProjectOpen(false)}>Create Project</Button>
+            <Button onClick={handleCreateProject}>Create Project</Button>
           </div>
         </DialogContent>
-      </Dialog>
+      </Dialog >
 
       {/* View Task Dialog */}
-      <Dialog open={isViewTaskOpen} onOpenChange={setIsViewTaskOpen}>
+      < Dialog open={isViewTaskOpen} onOpenChange={setIsViewTaskOpen} >
         <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
           {selectedTask && (
             <>
@@ -909,7 +956,7 @@ export function TasksModule({ user }: TasksModuleProps) {
             </>
           )}
         </DialogContent>
-      </Dialog>
-    </div>
+      </Dialog >
+    </div >
   )
 }
